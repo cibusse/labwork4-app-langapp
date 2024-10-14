@@ -1,0 +1,7 @@
+{
+  "name": "langApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
