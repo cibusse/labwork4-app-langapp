@@ -17,14 +17,20 @@ const Home: React.FC = () => {
                     <IonLabel> Navigate from here...</IonLabel>
              </IonListHeader>
             <IonMenuToggle autoHide>
+            <IonItem button routerLink="/Welcome">
+                <IonIcon slot="start" icon={handRightOutline}></IonIcon>
+                    <IonLabel>Welcome</IonLabel>
+                </IonItem>
                 <IonItem button routerLink="/Home">
                     <IonIcon slot="start" icon={homeOutline}></IonIcon>
                     <IonLabel>Home</IonLabel>
                 </IonItem>
-                <IonItem button routerLink="/Welcome">
+
+                <IonItem button routerLink="/Login">
                 <IonIcon slot="start" icon={handRightOutline}></IonIcon>
-                    <IonLabel>Welcome</IonLabel>
+                    <IonLabel>Login</IonLabel>
                 </IonItem>
+
             </IonMenuToggle>
         </IonList>
       </IonContent>

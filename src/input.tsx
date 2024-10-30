@@ -6,29 +6,30 @@ export interface InputProps {
   name: string;
   control?: Control;
   label?: string;
-  component?: JSX.Element;
+  component?: JSX.Element; // This is not necessary if you're using render prop
 }
 
 const Input: FC<InputProps> = ({
   name,
   control,
-  component,
   label,
 }) => {
   return (
-    <>
-      <IonItem>
-        {label && (
-          <IonLabel position="floating">{label}</IonLabel>
+    <IonItem>
+      {label && (
+        <IonLabel position="floating">{label}</IonLabel>
+      )}
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <IonInput
+            {...field} // Spread field props to IonInput
+            onIonChange={e => field.onChange(e.detail.value)} // Handle changes correctly
+          />
         )}
-        <Controller
-          as={component ?? <IonInput />}
-          name={name}
-          control={control}
-          onChangeName="onIonChange"
-        />
-      </IonItem>
-    </>
+      />
+    </IonItem>
   );
 };
 
