@@ -24,8 +24,8 @@ const Tab2: React.FC = () => {
 
           <IonCardContent>
           <iframe width="100%" height="315" src="https://www.youtube.com/embed/Ge4q7ZQpznA?si=-kfBLco0X6jC1jRW" title="YouTube video player" 
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
           </IonCardContent>
           
           <IonCardContent>

@@ -6,7 +6,7 @@ export interface InputProps {
   name: string;
   control?: Control;
   label?: string;
-  component?: JSX.Element; // This is not necessary if you're using render prop
+  component?: JSX.Element; 
 }
 
 const Input: FC<InputProps> = ({
@@ -24,8 +24,8 @@ const Input: FC<InputProps> = ({
         control={control}
         render={({ field }) => (
           <IonInput
-            {...field} // Spread field props to IonInput
-            onIonChange={e => field.onChange(e.detail.value)} // Handle changes correctly
+            {...field} 
+            onIonChange={e => field.onChange(e.detail.value)} 
           />
         )}
       />

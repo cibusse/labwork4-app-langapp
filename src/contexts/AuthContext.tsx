@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+/* import React, { createContext, useContext, useState } from 'react';
 
 // Define the types for your context
 interface AuthContextType {
@@ -58,4 +58,126 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+ */
+
+
+/* import React, { useContext, useState, useEffect, ReactNode } from 'react';
+import { auth } from '../firebase'; // Adjust the import based on your Firebase setup
+
+const AuthContext = React.createContext<any>(null);
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const value = {
+    currentUser,
+    login: (email: string, password: string) => auth.signInWithEmailAndPassword(email, password),
+    // Add other auth functions here
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+}; */
+
+
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { auth } from '../firebase'; // Adjust the import based on your file structure
+import { User, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateEmail as firebaseUpdateEmail, updatePassword as firebaseUpdatePassword, sendPasswordResetEmail } from 'firebase/auth';
+
+interface AuthContextProps {
+  currentUser: User | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updateEmail: (email: string) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const signup = (email: string, password: string) => {
+    return createUserWithEmailAndPassword(auth, email, password).then(() => {});
+  };
+
+  const login = (email: string, password: string) => {
+    return signInWithEmailAndPassword(auth, email, password).then(() => {});
+  };
+
+  const logout = () => {
+    return signOut(auth);
+  };
+
+  const resetPassword = (email: string) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
+  const updateEmail = (email: string) => {
+    if (currentUser) {
+      return firebaseUpdateEmail(currentUser, email);
+    }
+    return Promise.reject(new Error("No current user"));
+  };
+
+  const updatePassword = (password: string) => {
+    if (currentUser) {
+      return firebaseUpdatePassword(currentUser, password);
+    }
+    return Promise.reject(new Error("No current user"));
+  };
+
+  const value = {
+    currentUser,
+    login,
+    signup,
+    logout,
+    resetPassword,
+    updateEmail,
+    updatePassword,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };

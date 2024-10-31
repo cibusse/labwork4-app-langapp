@@ -12,6 +12,6 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   return currentUser ? (
     <>{children}</>
   ) : (
-    <Redirect to="/login" />
+    <Redirect to="/Login" />
   );
-}
+} 

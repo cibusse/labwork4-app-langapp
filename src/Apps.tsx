@@ -15,9 +15,8 @@ import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import Login from './components/Login';
+import Login from './pages/Login';
 
-// Ensure setupIonicReact is called once
 setupIonicReact();
 
 const App: React.FC = () => (
